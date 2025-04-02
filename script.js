@@ -40,33 +40,66 @@ class Tree {
   }
 
   insert(value) {
-
     function insertToTree(root, key) {
-    if (root === undefined) {
+      if (root === undefined || null) {
         return new Node(key);
+      }
+
+      if (root.data === key) {
+        return root;
+      }
+
+      if (key < root.data) {
+        root.left = insertToTree(root.left, key);
+      } else if (key > root.data) {
+        root.right = insertToTree(root.right, key);
+      }
+
+      return root;
     }
 
-    if (root.data === key) {
+    insertToTree(this.root, value);
+  }
+
+  delete(value) {
+    function getSuccessor(curr) {
+        curr = curr.right;
+        while (curr !== null || undefined && curr.left !== null || undefined) {
+            curr = curr.left;
+        }
+        return curr;
+    }
+
+    function delNode(root, x) {
+        if (root === null) {
+            return root;
+        }
+    
+        if (root.data > x) {
+            root.left = delNode(root.left, x);
+        } else if (root.data < x) {
+            root.right = delNode(root.right, x);
+        } else {
+            if (root.left === null) 
+                return root.right;
+            if (root.right === null) 
+                return root.left;
+
+            let succ = getSuccessor(root);
+            root.data = succ.data;
+            root.right = delNode(root.right, succ.data);
+        }
         return root;
     }
 
-    if (key < root.data) {
-        root.left = insertToTree(root.left, key);
-    }
-    else if (key > root.data) {
-        root.right = insertToTree(root.right, key);
-    }
-
-    return root;
+    delNode(this.root, value);
   }
-
-  insertToTree(this.root, value);
-}
 }
 
 const newTree = new Tree();
 
 newTree.buildTree([40, 30, 20, 10]);
-newTree.insert(25)
+newTree.insert(25);
+newTree.delete(25);
 
 console.log(newTree.root);
