@@ -39,7 +39,9 @@ class Tree {
     return root;
   }
 
-  insert(root, key) {
+  insert(value) {
+
+    function insertToTree(root, key) {
     if (root === undefined) {
         return new Node(key);
     }
@@ -49,19 +51,22 @@ class Tree {
     }
 
     if (key < root.data) {
-        root.left = this.insert(root.left, key);
+        root.left = insertToTree(root.left, key);
     }
     else if (key > root.data) {
-        root.right = this.insert(root.right, key);
+        root.right = insertToTree(root.right, key);
     }
 
     return root;
   }
+
+  insertToTree(this.root, value);
+}
 }
 
 const newTree = new Tree();
 
 newTree.buildTree([40, 30, 20, 10]);
-newTree.insert(newTree.root, 25)
+newTree.insert(25)
 
 console.log(newTree.root);
