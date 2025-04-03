@@ -94,6 +94,26 @@ class Tree {
 
     delNode(this.root, value);
   }
+
+  find(value) {
+
+    let node;
+
+    function traverse(root) {
+        if (root !== null) {
+            if (root.data === value) {
+                node = root;
+            }
+            else {
+            traverse(root.left);
+            traverse(root.right);
+            }
+        }
+    }
+
+    traverse(this.root);
+    return node;
+  }
 }
 
 const newTree = new Tree();
@@ -101,7 +121,6 @@ const newTree = new Tree();
 newTree.buildTree([40, 30, 20, 10]);
 newTree.insert(25);
 newTree.insert(27);
-newTree.delete(30);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
@@ -118,4 +137,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
   prettyPrint(newTree.root);
 
-// console.log(newTree.root);
+console.log(newTree.find(10));
