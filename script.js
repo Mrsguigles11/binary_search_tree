@@ -27,7 +27,7 @@ class Tree {
 
   sortedArrayToBst(arr, start, end) {
     if (start > end) {
-      return;
+      return null;
     }
 
     let mid = start + Math.floor((end - start) / 2);
@@ -41,7 +41,7 @@ class Tree {
 
   insert(value) {
     function insertToTree(root, key) {
-      if (root === undefined || null) {
+      if (root === null) {
         return new Node(key);
       }
 
@@ -64,7 +64,7 @@ class Tree {
   delete(value) {
     function getSuccessor(curr) {
         curr = curr.right;
-        while (curr !== null || undefined && curr.left !== null || undefined) {
+        while (curr !== null && curr.left !== null) {
             curr = curr.left;
         }
         return curr;
@@ -100,6 +100,22 @@ const newTree = new Tree();
 
 newTree.buildTree([40, 30, 20, 10]);
 newTree.insert(25);
-newTree.delete(25);
+newTree.insert(27);
+newTree.delete(30);
 
-console.log(newTree.root);
+const prettyPrint = (node, prefix = "", isLeft = true) => {
+    if (node === null) {
+      return;
+    }
+    if (node.right !== null) {
+      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    }
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    if (node.left !== null) {
+      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    }
+  };
+
+  prettyPrint(newTree.root);
+
+// console.log(newTree.root);
