@@ -114,8 +114,8 @@ class Tree {
   levelOrder(callback) {
     let que = [];
 
-    if(typeof callback != 'function') {
-        throw new Error("Callback is not a function!");
+    if (typeof callback != "function") {
+      throw new Error("Callback is not a function!");
     }
 
     function traverse(root) {
@@ -138,13 +138,30 @@ class Tree {
 
     traverse(this.root);
   }
+
+  preOrder(callback) {
+    if (typeof callback != "function") {
+      throw new Error("Callback is not a function!");
+    }
+
+    function traverse(root) {
+      if (root === null) {
+        return;
+      }
+      callback(root);
+      traverse(root.left);
+      traverse(root.right);
+    }
+
+    traverse(this.root);
+  }
 }
 
 const newTree = new Tree();
 
 newTree.buildTree([40, 30, 20, 10]);
 newTree.insert(25);
-newTree.insert(27);
+newTree.insert(15);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -159,6 +176,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-// prettyPrint(newTree.root);
+prettyPrint(newTree.root);
 
-newTree.levelOrder("hello");
+newTree.preOrder((node) => console.log(node));
