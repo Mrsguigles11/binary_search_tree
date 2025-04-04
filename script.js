@@ -114,22 +114,26 @@ class Tree {
   levelOrder(callback) {
     let que = [];
 
-    function traverse(root) {
-        if (root === null) {
-            return
-        }
-        que.push(root);
+    if(typeof callback != 'function') {
+        throw new Error("Callback is not a function!");
+    }
 
-        while (que.length != 0) {
-            const current = que.shift();
-            callback(current);
-            if (current.left != null) {
-                que.push(current.left);
-            }
-            if (current.right != null) {
-                que.push(current.right);
-            }
+    function traverse(root) {
+      if (root === null) {
+        return;
+      }
+      que.push(root);
+
+      while (que.length != 0) {
+        const current = que.shift();
+        callback(current);
+        if (current.left != null) {
+          que.push(current.left);
         }
+        if (current.right != null) {
+          que.push(current.right);
+        }
+      }
     }
 
     traverse(this.root);
@@ -155,6 +159,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-prettyPrint(newTree.root);
+// prettyPrint(newTree.root);
 
-// newTree.levelOrder((node) => console.log(node));
+newTree.levelOrder("hello");
