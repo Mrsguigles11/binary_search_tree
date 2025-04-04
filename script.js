@@ -63,56 +63,76 @@ class Tree {
 
   delete(value) {
     function getSuccessor(curr) {
-        curr = curr.right;
-        while (curr !== null && curr.left !== null) {
-            curr = curr.left;
-        }
-        return curr;
+      curr = curr.right;
+      while (curr !== null && curr.left !== null) {
+        curr = curr.left;
+      }
+      return curr;
     }
 
     function delNode(root, x) {
-        if (root === null) {
-            return root;
-        }
-    
-        if (root.data > x) {
-            root.left = delNode(root.left, x);
-        } else if (root.data < x) {
-            root.right = delNode(root.right, x);
-        } else {
-            if (root.left === null) 
-                return root.right;
-            if (root.right === null) 
-                return root.left;
-
-            let succ = getSuccessor(root);
-            root.data = succ.data;
-            root.right = delNode(root.right, succ.data);
-        }
+      if (root === null) {
         return root;
+      }
+
+      if (root.data > x) {
+        root.left = delNode(root.left, x);
+      } else if (root.data < x) {
+        root.right = delNode(root.right, x);
+      } else {
+        if (root.left === null) return root.right;
+        if (root.right === null) return root.left;
+
+        let succ = getSuccessor(root);
+        root.data = succ.data;
+        root.right = delNode(root.right, succ.data);
+      }
+      return root;
     }
 
     delNode(this.root, value);
   }
 
   find(value) {
-
     let node;
 
     function traverse(root) {
-        if (root !== null) {
-            if (root.data === value) {
-                node = root;
+      if (root !== null) {
+        if (root.data === value) {
+          node = root;
+        } else {
+          traverse(root.left);
+          traverse(root.right);
+        }
+      }
+    }
+
+    traverse(this.root);
+    return node;
+  }
+
+  levelOrder(callback) {
+    let que = [];
+
+    function traverse(root) {
+        if (root === null) {
+            return
+        }
+        que.push(root);
+
+        while (que.length != 0) {
+            const current = que.shift();
+            callback(current);
+            if (current.left != null) {
+                que.push(current.left);
             }
-            else {
-            traverse(root.left);
-            traverse(root.right);
+            if (current.right != null) {
+                que.push(current.right);
             }
         }
     }
 
     traverse(this.root);
-    return node;
   }
 }
 
@@ -123,18 +143,18 @@ newTree.insert(25);
 newTree.insert(27);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
-    if (node === null) {
-      return;
-    }
-    if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-    }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-    if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-    }
-  };
+  if (node === null) {
+    return;
+  }
+  if (node.right !== null) {
+    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  }
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+  if (node.left !== null) {
+    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+  }
+};
 
-  prettyPrint(newTree.root);
+prettyPrint(newTree.root);
 
-console.log(newTree.find(10));
+// newTree.levelOrder((node) => console.log(node));
