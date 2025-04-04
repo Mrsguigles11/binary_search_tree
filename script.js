@@ -155,6 +155,40 @@ class Tree {
 
     traverse(this.root);
   }
+
+  inOrder(callback) {
+    if (typeof callback != "function") {
+      throw new Error("Callback is not a function!");
+    }
+
+    function traverse(root) {
+      if (root === null) {
+        return;
+      }
+      traverse(root.left);
+      callback(root);
+      traverse(root.right);
+    }
+
+    traverse(this.root);
+  }
+
+  postOrder(callback) {
+    if (typeof callback != "function") {
+      throw new Error("Callback is not a function!");
+    }
+
+    function traverse(root) {
+      if (root === null) {
+        return;
+      }
+      traverse(root.left);
+      traverse(root.right);
+      callback(root);
+    }
+
+    traverse(this.root);
+  }
 }
 
 const newTree = new Tree();
@@ -178,4 +212,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 prettyPrint(newTree.root);
 
-newTree.preOrder((node) => console.log(node));
+newTree.postOrder((node) => console.log(node));
