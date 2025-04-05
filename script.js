@@ -100,6 +100,7 @@ class Tree {
       if (root !== null) {
         if (root.data === value) {
           node = root;
+          return;
         } else {
           traverse(root.left);
           traverse(root.right);
@@ -189,6 +190,56 @@ class Tree {
 
     traverse(this.root);
   }
+
+  height(node) {
+
+    let que = [];
+    let array = [];
+    const startNode = this.find(node);
+
+    function levelOrderTraverse(root) {
+      if (root === null) {
+        return;
+      }
+      que.push(root);
+
+      while (que.length != 0) {
+        const current = que.shift();
+        array.push(current);
+        if (current.left != null) {
+          que.push(current.left);
+        }
+        if (current.right != null) {
+          que.push(current.right);
+        }
+      }
+    }
+
+    levelOrderTraverse(startNode);
+    const targetNode = array[array.length -1];
+
+    let counter = 0;
+
+    function traverse(givenNode, leafNode) {
+      if (givenNode === leafNode) {
+        return
+      }
+
+      if (givenNode.data > leafNode.data) {
+        counter++;
+        traverse(givenNode.left, leafNode);
+      }
+      if (givenNode.data < leafNode.data) {
+        counter++;
+        traverse(givenNode.right, leafNode);
+      }
+
+    }
+
+    traverse(startNode, targetNode);
+    console.log(counter);
+    return counter;
+  }
 }
 
 const newTree = new Tree();
@@ -196,6 +247,11 @@ const newTree = new Tree();
 newTree.buildTree([40, 30, 20, 10]);
 newTree.insert(25);
 newTree.insert(15);
+newTree.insert(26);
+newTree.insert(24);
+newTree.insert(27);
+newTree.insert(28);
+
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -210,6 +266,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-prettyPrint(newTree.root);
+// prettyPrint(newTree.root);
 
-newTree.postOrder((node) => console.log(node));
+// newTree.height(34);
