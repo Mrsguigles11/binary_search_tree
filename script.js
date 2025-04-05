@@ -237,8 +237,33 @@ class Tree {
     }
 
     traverse(startNode, targetNode);
+    return counter;
+  }
+
+  depth(value) {
+
+    let counter = 0;
+    const targetNode = this.find(value);
+
+    function traverse(root, target) {
+      if (root === target) {
+        return
+      }
+
+      if (root.data > target.data) {
+        counter++;
+        traverse(root.left, target);
+      }
+      if (root.data < target.data) {
+        counter++;
+        traverse(root.right, target);
+      }
+    }
+
+    traverse(this.root, targetNode);
     console.log(counter);
     return counter;
+
   }
 }
 
@@ -266,6 +291,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-// prettyPrint(newTree.root);
+prettyPrint(newTree.root);
 
-// newTree.height(34);
+newTree.depth(30);
