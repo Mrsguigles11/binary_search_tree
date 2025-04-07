@@ -192,7 +192,6 @@ class Tree {
   }
 
   height(node) {
-
     let que = [];
     let array = [];
     const startNode = this.find(node);
@@ -216,13 +215,13 @@ class Tree {
     }
 
     levelOrderTraverse(startNode);
-    const targetNode = array[array.length -1];
+    const targetNode = array[array.length - 1];
 
     let counter = 0;
 
     function traverse(givenNode, leafNode) {
       if (givenNode === leafNode) {
-        return
+        return;
       }
 
       if (givenNode.data > leafNode.data) {
@@ -233,7 +232,6 @@ class Tree {
         counter++;
         traverse(givenNode.right, leafNode);
       }
-
     }
 
     traverse(startNode, targetNode);
@@ -241,13 +239,12 @@ class Tree {
   }
 
   depth(value) {
-
     let counter = 0;
     const targetNode = this.find(value);
 
     function traverse(root, target) {
       if (root === target) {
-        return
+        return;
       }
 
       if (root.data > target.data) {
@@ -263,7 +260,6 @@ class Tree {
     traverse(this.root, targetNode);
     console.log(counter);
     return counter;
-
   }
 
   isBalanced() {
@@ -272,11 +268,9 @@ class Tree {
 
     if (this.root.left === null) {
       leftHeight = 0;
-    }
-    else if (this.root.right === null) {
+    } else if (this.root.right === null) {
       rightHeight = 0;
-    }
-    else {
+    } else {
       leftHeight = this.height(this.root.left.data);
       rightHeight = this.height(this.root.right.data);
     }
@@ -284,11 +278,20 @@ class Tree {
     const difference = leftHeight - rightHeight;
 
     if (difference > 1 || difference < -1) {
-      return false
-    }
-    else {
+      return false;
+    } else {
       return true;
     }
+  }
+
+  rebalance() {
+    let array = [];
+
+    this.inOrder((node) => {
+      array.push(node.data);
+    })
+
+    this.buildTree(array);
   }
 }
 
@@ -300,8 +303,7 @@ newTree.insert(15);
 newTree.insert(26);
 newTree.insert(24);
 newTree.insert(27);
-newTree.insert(28);
-
+// newTree.insert(28);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -316,7 +318,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-prettyPrint(newTree.root);
+newTree.rebalance();
 
-console.log(newTree.isBalanced());
+prettyPrint(newTree.root);
 
