@@ -265,6 +265,31 @@ class Tree {
     return counter;
 
   }
+
+  isBalanced() {
+    let leftHeight;
+    let rightHeight;
+
+    if (this.root.left === null) {
+      leftHeight = 0;
+    }
+    else if (this.root.right === null) {
+      rightHeight = 0;
+    }
+    else {
+      leftHeight = this.height(this.root.left.data);
+      rightHeight = this.height(this.root.right.data);
+    }
+
+    const difference = leftHeight - rightHeight;
+
+    if (difference > 1 || difference < -1) {
+      return false
+    }
+    else {
+      return true;
+    }
+  }
 }
 
 const newTree = new Tree();
@@ -293,4 +318,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 prettyPrint(newTree.root);
 
-newTree.depth(30);
+console.log(newTree.isBalanced());
+
