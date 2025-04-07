@@ -289,36 +289,10 @@ class Tree {
 
     this.inOrder((node) => {
       array.push(node.data);
-    })
+    });
 
     this.buildTree(array);
   }
 }
 
-const newTree = new Tree();
-
-newTree.buildTree([40, 30, 20, 10]);
-newTree.insert(25);
-newTree.insert(15);
-newTree.insert(26);
-newTree.insert(24);
-newTree.insert(27);
-// newTree.insert(28);
-
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-
-newTree.rebalance();
-
-prettyPrint(newTree.root);
 
