@@ -263,21 +263,37 @@ class Tree {
   }
 
   isBalanced() {
-    let leftHeight;
-    let rightHeight;
 
-    if (this.root.left === null) {
-      leftHeight = 0;
-    } else if (this.root.right === null) {
-      rightHeight = 0;
-    } else {
-      leftHeight = this.height(this.root.left.data);
-      rightHeight = this.height(this.root.right.data);
-    }
+    let result;
 
-    const difference = leftHeight - rightHeight;
+    const checkBalance = (node) => {
+      let leftHeight;
+      let rightHeight;
 
-    if (difference > 1 || difference < -1) {
+      if (node.left == null && node.right == null) {
+        leftHeight = 0;
+        rightHeight = 0;
+      } else if (node.left == null) {
+        leftHeight = 0;
+        rightHeight = this.height(node.data);
+      } else if (node.right == null) {
+        rightHeight = 0;
+        leftHeight = this.height(node.data);
+      } else {
+        leftHeight = this.height(node.left.data);
+        rightHeight = this.height(node.right.data);
+      }
+
+      const difference = leftHeight - rightHeight;
+
+      if (difference > 1 || difference < -1) {
+        result = "false";
+      }
+    };
+
+    this.inOrder(checkBalance);
+
+    if (result === "false") {
       return false;
     } else {
       return true;
@@ -295,4 +311,16 @@ class Tree {
   }
 }
 
+const prettyPrint = (node, prefix = "", isLeft = true) => {
+  if (node === null) {
+    return;
+  }
+  if (node.right !== null) {
+    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  }
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+  if (node.left !== null) {
+    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+  }
+};
 
